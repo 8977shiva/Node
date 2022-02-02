@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:8000';
 
 async function httpGetPlanets() {
   const respone = await axios.get(`${API_URL}/planets`);
-  return await respone
+  return await respone.data
 }
 
 async function httpGetLaunches() {
