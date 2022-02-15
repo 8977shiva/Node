@@ -1,15 +1,14 @@
 import { parse } from "csv-parse";
 import path from "path";
 import fs from "fs";
-import {fileURLToPath} from 'url';
-import { rejects } from "assert";
+import { fileURLToPath } from "url";
 
 /* making __dirname working in Module Es6 with */
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename)
+const __dirname = path.dirname(__filename);
 
 const habitablePlanets = [];
- 
+
 const isHabitablePlanet = (planet) => {
   return (
     planet["koi_disposition"] === "CONFIRMED" &&
@@ -20,23 +19,23 @@ const isHabitablePlanet = (planet) => {
 };
 
 export const loadPlanetsData = () => {
-    return new Promise((reslove, reject) => {
-        fs.createReadStream(path.join(__dirname, '../data', 'kepler_data.csv'))
-        .pipe(
-          parse({
-            comment: "#",
-            columns: true
-          })
-        )
-        .on("data", (data) => {
-          isHabitablePlanet(data) ? habitablePlanets.push(data) : null;
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(path.join(__dirname, "../data", "kepler_data.csv"))
+      .pipe(
+        parse({
+          comment: "#",
+          columns: true
         })
-        .on("error", (err) => {
-          console.log(err);
-          reject()
-        })
-        .on("end", () => {
-          reslove(habitablePlanets)
-        });
-    })
-} 
+      )
+      .on("data", (data) => {
+        isHabitablePlanet(data) ? habitablePlanets.push(data) : null;
+      })
+      .on("error", (err) => {
+        console.log(err);
+        reject();
+      })
+      .on("end", () => {
+        resolve(habitablePlanets);
+      });
+  });
+};

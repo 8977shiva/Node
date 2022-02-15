@@ -1,20 +1,28 @@
-import axios from 'axios';
-const API_URL = 'http://localhost:8000';
-
+import axios from "axios";
+const API_URL = "http://localhost:8000";
 
 async function httpGetPlanets() {
-  const respone = await axios.get(`${API_URL}/planets`);
-  return await respone.data
+  const response = await axios.get(`${API_URL}/planets`);
+  // console.log(response, "l");
+  return await response.data;
 }
 
 async function httpGetLaunches() {
-  // TODO: Once API is ready.
-  // Load launches, sort by flight number, and return as JSON.
+  const response = await axios.get(`${API_URL}/launches`);
+  return await response.data.sort((a, b) => a.flightNumber - b.flightNumber);
 }
 
 async function httpSubmitLaunch(launch) {
-  // TODO: Once API is ready.
-  // Submit given launch data to launch system.
+  return await axios
+    .post(`${API_URL}/launches`, launch)
+    .then((response) => {
+      if (response.status === 201) {
+        return response.data;
+      }
+    })
+    .catch((error) => {
+      return false;
+    });
 }
 
 async function httpAbortLaunch(id) {
@@ -22,9 +30,4 @@ async function httpAbortLaunch(id) {
   // Delete launch with given ID.
 }
 
-export {
-  httpGetPlanets,
-  httpGetLaunches,
-  httpSubmitLaunch,
-  httpAbortLaunch,
-};
+export { httpGetPlanets, httpGetLaunches, httpSubmitLaunch, httpAbortLaunch };
