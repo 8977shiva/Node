@@ -1,4 +1,8 @@
-import { getAllLaunches, addNewLaunch } from "../../models/launches.model.js";
+import {
+  getAllLaunches,
+  addNewLaunch,
+  abortLaunchById
+} from "../../models/launches.model.js";
 
 export const httpGetAllLaunches = (req, res) => {
   return res.status(200).json(getAllLaunches());
@@ -22,4 +26,19 @@ export const httpAddNewLaunch = (req, res) => {
   }
   addNewLaunch(launch);
   return res.status(201).json(launch);
+};
+
+export const httpAbortLaunch = (req, res) => {
+  const id = req.params.id;
+  // console.log(typeof Number(id));
+  if (abortLaunchById(Number(id))) {
+    return res.status(200).json({
+      id,
+      message: `launch with ${id} is aborted  `
+    });
+  } else {
+    return res.status(404).json({
+      error: "launch not found"
+    });
+  }
 };

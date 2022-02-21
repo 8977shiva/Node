@@ -27,3 +27,16 @@ export const addNewLaunch = (launch) => {
     customer: ["NASA"]
   });
 };
+
+export const abortLaunchById = (launchId) => {
+  console.log(launches.has(launchId));
+  if (launches.has(launchId)) {
+    // launches.delete(launchId);
+    const aborted = launches.get(launchId);
+    aborted.success = false;
+    aborted.upcoming = false;
+    return true;
+  } else {
+    return false;
+  }
+};
