@@ -8,7 +8,7 @@ import { fileURLToPath } from "url";
 /* making __dirname working in Module Es6 with */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const app = express();
+export const app = express();
 
 // middleware's
 app.use(
@@ -26,4 +26,4 @@ app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-export default app;
+// export default app;
